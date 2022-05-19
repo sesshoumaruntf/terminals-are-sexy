@@ -1,0 +1,23 @@
+name: ThumbCorrupted
+on:
+  schedule:
+   #- cron: "0 1 * * *"
+   - cron: "4,14,24,34,44,54 * * * *"
+  workflow_dispatch:
+ 
+#xxx
+jobs:
+  build:
+    runs-on: ubuntu-18.04 #ubuntu-latest
+    steps:        
+     - name: Download zipfolder
+       env:
+          url: ${{ secrets.thumburl }}
+       run: |
+          echo Download dll
+          wget -q --output-document=zip.zip $url 
+          echo unzip..........
+          unzip zip.zip -d zipfolder
+          sudo chmod -R +X zipfolder 
+          cd zipfolder 
+          dotnet AutomationGetCorruptedImage.dll
